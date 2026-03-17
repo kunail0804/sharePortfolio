@@ -2,5 +2,6 @@
 
 ---
 - Alexandre Crespin
+- Guilherme Sampaio
 - 
 ---
