@@ -53,14 +53,12 @@ public class AdministrateurTest {
     @Test
     void testEnregistrerCoursWithNegatifValue() {
         ActionSimple action = new ActionSimple("ActionTest");
-        Jour jour = new Jour(0, 0);
         assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, -100));
     }
 
     @Test
     void testEnregistrerCoursWithValidValue() {
         ActionSimple action = new ActionSimple("ActionTest");
-        Jour jour = new Jour(0, 0);
         assertDoesNotThrow(() -> action.enrgCours(jour, 100));
     }
 
