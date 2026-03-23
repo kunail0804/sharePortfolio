@@ -1,13 +1,11 @@
 package fr.utc.miage.shares;
 
-import javax.management.relation.Role;
-
 public class Administrateur extends Utilisateur {
 
 
     public Administrateur(String login, String password) {
         super(login, password);
-        this.setRole(Role.admin);
+        this.setRole(Role.ADMIN);
     }
 
     public void login(String login, String password) {
@@ -22,13 +20,13 @@ public class Administrateur extends Utilisateur {
     public void setRole(Role role) {
         this.role = role;
     }
-    public String getRole() {
-        return this.getRole().toString();
+    public Role getRole() {
+        return this.getRole();
     }
 
     public void setLogin(String login) {
-        this.login = login;
-    }
+        this.
+    
     public String getLogin() {
         return this.getLogin();
     }

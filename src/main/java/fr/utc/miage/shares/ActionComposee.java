@@ -1,11 +1,8 @@
 package fr.utc.miage.shares;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import fr.utc.miage.shares.Action;
-import fr.utc.miage.shares.ActionSimple;
+
 
 public class ActionComposee extends Action {
 
