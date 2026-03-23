@@ -51,12 +51,14 @@ public class ActionsDisponible {
 
     // get the list of all available actions
     // not useful
+    @Deprecated
     public List<Action> getAllActions() {
         return this.actions;
     }
 
     // remove an action from the list of available actions
     // not useful use deactivate instead
+    @Deprecated
     public void removeAction(final Action a) {
         this.actions.remove(a);
     }
