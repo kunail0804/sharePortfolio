@@ -91,5 +91,20 @@ public class AdministrateurTest {
         assertEquals(300, compositeAction.valeur(jour));
     }
 
+    //Desactiver Achat de l'action
+    @Test
+    void testDesactiverAction() {
+        ActionSimple action = new ActionSimple("ActionTest");
+        action.setEtat_action(false);
+        assertFalse(action.isEtat_action());
+    }
 
+    @Test
+    void testActiverAction(){
+        ActionSimple action = new ActionSimple("ActionTest");
+        action.setEtat_action(true);
+        assertTrue(action.isEtat_action());
+    }
+
+    
 }

@@ -25,6 +25,7 @@ import java.util.Objects;
 public abstract class Action {
 
     private final String libelle;
+    private boolean etat_action = false;//etat d'action par defaut
 
     /**
      * Get the value of libelle
@@ -51,6 +52,16 @@ public abstract class Action {
      * @return
      */
     public abstract float valeur(Jour j);
+
+    // pour savoir l'etat d'action
+    public boolean isEtat_action() {
+        return etat_action;
+    }
+    // setter pour changer l'etat d'action
+    public void setEtat_action(boolean etat_action) {
+        this.etat_action = etat_action;
+    }
+
 
     @Override
     public int hashCode() {
