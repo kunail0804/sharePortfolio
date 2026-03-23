@@ -67,14 +67,12 @@ public class AdministrateurTest {
     @Test
     void testEnregistrerCoursWithNegatifValue() {
         ActionSimple action = new ActionSimple("ActionTest");
-        Jour jour = new Jour(0, 0);
         assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, -100));
     }
 
     @Test
     void testEnregistrerCoursWithValidValue() {
         ActionSimple action = new ActionSimple("ActionTest");
-        Jour jour = new Jour(0, 0);
         assertDoesNotThrow(() -> action.enrgCours(jour, 100));
     }
 
@@ -109,5 +107,21 @@ public class AdministrateurTest {
 
         assertEquals(150, compositeAction.valeur(jour));
     }
+
+    //Desactiver Achat de l'action
+    @Test
+    void testDesactiverAction() {
+        ActionSimple action = new ActionSimple("ActionTest");
+        action.setEtat_action(false);
+        assertFalse(action.isEtat_action());
+    }
+
+    @Test
+    void testActiverAction(){
+        ActionSimple action = new ActionSimple("ActionTest");
+        action.setEtat_action(true);
+        assertTrue(action.isEtat_action());
+    }
+
     
 }
