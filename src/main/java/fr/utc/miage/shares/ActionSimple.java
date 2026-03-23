@@ -43,6 +43,9 @@ public class ActionSimple extends Action {
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
         }
+        else {
+            throw new IllegalArgumentException("Cours déjà enregistré pour ce jour");
+        }
     }
 
     @Override
