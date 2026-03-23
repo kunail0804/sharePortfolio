@@ -3,7 +3,7 @@ package fr.utc.miage.shares;
 import static org.junit.jupiter.api.Assertions.*;
 import fr.utc.miage.shares.Action;
 import fr.utc.miage.shares.ActionSimple;
-import fr.utc.miage.shares.CompositeAction;
+import fr.utc.miage.shares.ActionComposee;
 import fr.utc.miage.shares.Administrateur;
 import fr.utc.miage.shares.Jour;
 
@@ -12,16 +12,30 @@ import org.junit.jupiter.api.Test;
 public class AdministrateurTest {
     Administrateur admin = new Administrateur("admin", "admin");
     Jour jour = new Jour(0, 0);
+
+    private static final String ACTION1_LIBELLE = "Action1";
+    private static final String ACTION2_LIBELLE = "Action2";
+    private static final String COMPOSITE_LIBELLE = "CompositeAction";
+
+    private static final float PERCENT_50 = 50.0f;
+    private static final float VALUE_100 = 100.0f;
+    private static final float VALUE_200 = 200.0f;
+
     //creation actions composees
     @Test
     void testCreateCompositeAction() {
-        ActionSimple action1 = new ActionSimple("Action1");
-        ActionSimple action2 = new ActionSimple("Action2");
-        CompositeAction compositeAction = new CompositeAction("CompositeAction");
+        ActionSimple action1 = new ActionSimple(ACTION1_LIBELLE);
+        ActionSimple action2 = new ActionSimple(ACTION2_LIBELLE);
+        ActionComposee compositeAction = new ActionComposee(COMPOSITE_LIBELLE);
         Jour jour = new Jour(0,0);
-        compositeAction.addAction(action1);
-        compositeAction.addAction(action2);
-        assertEquals(300, compositeAction.valeur(jour));
+        
+        compositeAction.addAction(action1, PERCENT_50);
+        compositeAction.addAction(action2, PERCENT_50);
+        
+        action1.enrgCours(jour, VALUE_100);
+        action2.enrgCours(jour, VALUE_200);
+
+        assertEquals(150, compositeAction.valeur(jour));
     }
 
     //libelle action
@@ -83,15 +97,17 @@ public class AdministrateurTest {
     //Calculer la valeur d'une action composee
     @Test
     void testCalculerValeurActionComposee() {
-        ActionSimple action1 = new ActionSimple("Action1");
-        ActionSimple action2 = new ActionSimple("Action2");
-        CompositeAction compositeAction = new CompositeAction("CompositeAction");
-        compositeAction.addAction(action1);
-        compositeAction.addAction(action2);
-        action1.enrgCours(jour, 100);
-        action2.enrgCours(jour, 200);
-        assertEquals(300, compositeAction.valeur(jour));
+        ActionSimple action1 = new ActionSimple(ACTION1_LIBELLE);
+        ActionSimple action2 = new ActionSimple(ACTION2_LIBELLE);
+        ActionComposee compositeAction = new ActionComposee(COMPOSITE_LIBELLE);
+        
+        compositeAction.addAction(action1, PERCENT_50);
+        compositeAction.addAction(action2, PERCENT_50);
+        
+        action1.enrgCours(jour, VALUE_100);
+        action2.enrgCours(jour, VALUE_200);
+
+        assertEquals(150, compositeAction.valeur(jour));
     }
-
-
+    
 }
