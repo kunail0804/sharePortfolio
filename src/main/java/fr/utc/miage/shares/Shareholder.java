@@ -90,4 +90,45 @@ public class Shareholder extends User {
     public Map<Action, Double[]> getPortefeuille(){
         return portefeuille;
     }
+/**
+     * Calculates the unrealized balance (profit or loss) for a specific action in the portfolio.
+     * The balance is calculated as the current total value of the shares minus the total purchase cost.
+     * * @param action the action to calculate the balance for
+     * @param jourActuel the current day used to get the actual value of the action
+     * @return the balance difference (positive for profit, negative for loss)
+     * @throws IllegalArgumentException if the action is null or not present in the portfolio
+     */
+    public double getBalanceForAction(Action action, Jour jourActuel) {
+        if (action == null) {
+            throw new IllegalArgumentException("L'action est null");
+        }
+        
+        Double[] listAction = portefeuille.get(action);
+        if (listAction == null) {
+            throw new IllegalArgumentException("Cette action n'est pas présente dans ce portefeuille");
+        }
+
+        double coutTotalAchat = listAction[0];
+        double quantite = listAction[1];
+        
+        double valeurCourante = action.valeur(jourActuel) * quantite;
+        
+        return valeurCourante - coutTotalAchat;
+    }
+
+    /**
+     * Calculates the total balance (profit or loss) of the entire portfolio.
+     * * @param jourActuel the current day used to evaluate the portfolio
+     * @return the total balance difference
+     */
+    public double getTotalBalance(Jour jourActuel) {
+        double totalBalance = 0.0;
+        
+        for (Map.Entry<Action, Double[]> entry : portefeuille.entrySet()) {
+            Action action = entry.getKey();
+            totalBalance += getBalanceForAction(action, jourActuel);
+        }
+        
+        return totalBalance;
+    }
 }

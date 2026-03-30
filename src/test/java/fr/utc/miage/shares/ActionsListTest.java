@@ -18,6 +18,9 @@ package fr.utc.miage.shares;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 class ActionsListTest {

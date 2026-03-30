@@ -15,6 +15,10 @@
  */
 package fr.utc.miage.shares;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Map;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +26,16 @@ class ActionTest {
 
     private static final String FOO_SHARE1 = "Foo Share 1";
     private static final String FOO_SHARE2 = "Foo Share 2";
+
+    private ActionSimple action;
+    private Jour jour1;
+    private Jour jour2;
+
+    public void initialize() {
+        action = new ActionSimple("Google");
+        jour1 = new Jour(2025, 10);
+        jour2 = new Jour(2025, 11);
+    }
 
     @Test
     void testGetLibelleReturnConstructorParameter() {
@@ -96,6 +110,26 @@ class ActionTest {
         public float valeur(final Jour aJour) {
             return 0.0F;
         }
+    }
+
+    
+    @Test
+    public void testGetHistoriqueCours() {
+        initialize();
+        
+        action.enrgCours(jour1, 150.0f);
+        action.enrgCours(jour2, 155.0f);
+
+        Map<Jour, Float> historique = action.getHistoriqueCours();
+
+        assertEquals(2, historique.size());
+        assertEquals(150.0f, historique.get(jour1));
+        assertEquals(155.0f, historique.get(jour2));
+
+        Jour jour3 = new Jour(2025, 12);
+        historique.put(jour3, 999.0f);
+
+        assertEquals(2, action.getHistoriqueCours().size(), "L'encapsulation a échoué : la map interne a été modifiée par l'extérieur.");
     }
 
 }

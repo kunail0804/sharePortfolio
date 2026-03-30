@@ -19,9 +19,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 class ShareholderTest {
+
+    private Shareholder shareholder;
+    private ActionSimple apple;
+    private ActionSimple tesla;
+    private Jour jourEvaluation;
+
+    public void initialize() {
+        // 重要：清理静态的 User 列表，防止多个测试由于邮箱重复而报错
+        User.resetUsers();
+        
+        shareholder = new Shareholder("test@irit.fr", "password123", "Doe", "John");
+        apple = new ActionSimple("Apple");
+        tesla = new ActionSimple("Tesla");
+        jourEvaluation = new Jour(2023, 10);
+    }
+
+
     @Test
     void testConstructorWithCorrectParametersShouldWork(){
         Shareholder sh = new Shareholder("test@example.com", "password", "Doe", "John");
@@ -221,6 +239,57 @@ class ShareholderTest {
         });
 
         Shareholder.resetUsers();
-    }   
+    }
+
+    @Test
+    void testGetBalanceForAction_Profit() {
+        initialize();
+
+        shareholder.addAction(apple, 1000.0, 10);
+        
+        apple.enrgCours(jourEvaluation, 120.0f);
+        
+        double balance = shareholder.getBalanceForAction(apple, jourEvaluation);
+        assertEquals(200.0, balance, 0.001, "Le calcul de la plus-value (profit) est incorrect.");
+    }
+
+    @Test
+    void testGetBalanceForAction_Loss() {
+        initialize();
+
+        shareholder.addAction(tesla, 2000.0, 5);
+
+        tesla.enrgCours(jourEvaluation, 300.0f);
+        
+        double balance = shareholder.getBalanceForAction(tesla, jourEvaluation);
+        assertEquals(-500.0, balance, 0.001, "Le calcul de la moins-value (perte) est incorrect.");
+    }
+
+    @Test
+    void testGetTotalBalance() {
+        initialize();
+
+        shareholder.addAction(apple, 1000.0, 10);
+        shareholder.addAction(tesla, 2000.0, 5);
+        
+        apple.enrgCours(jourEvaluation, 120.0f);
+        tesla.enrgCours(jourEvaluation, 350.0f);
+        
+        double totalBalance = shareholder.getTotalBalance(jourEvaluation);
+        assertEquals(-50.0, totalBalance, 0.001, "Le calcul de la balance totale du portefeuille est incorrect.");
+    }
+
+    @Test
+    void testGetBalanceForAction_Exceptions() {
+        initialize();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            shareholder.getBalanceForAction(null, jourEvaluation);
+        }, "Devrait lever une exception si l'action est null.");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            shareholder.getBalanceForAction(apple, jourEvaluation);
+        }, "Devrait lever une exception si l'action n'est pas dans le portefeuille.");
+    }
     
 }

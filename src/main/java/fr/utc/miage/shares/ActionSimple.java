@@ -48,6 +48,15 @@ public class ActionSimple extends Action {
         }
     }
 
+    /**
+     * Retrieves the historical values of the action for evolution tracking.
+     * Returns a copy of the history map to preserve encapsulation.
+     * * @return a map containing the days as keys and the corresponding action values as values
+     */
+    public Map<Jour, Float> getHistoriqueCours() {
+        return new HashMap<>(this.mapCours);
+    }
+
     @Override
     public float valeur(final Jour j) {
         if (this.mapCours.containsKey(j)) {
