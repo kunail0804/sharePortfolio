@@ -48,6 +48,9 @@ public class ActionComposee extends Action {
         if (pourcentage <= 0 || pourcentage > 100 || action == null) {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100");
         }
+        if (totalPourcentage() + pourcentage > 100) {
+            throw new IllegalArgumentException("Le total des pourcentages ne peut pas dépasser 100%");
+        }
         this.composition.put(action, pourcentage);
     }
 
@@ -62,6 +65,14 @@ public class ActionComposee extends Action {
             total += pourcentage;
         }
         return (total == 100.0f);
+    }
+
+    public int totalPourcentage() {
+        float total = 0.0f;
+        for (float pourcentage : composition.values()) {
+            total += pourcentage;
+        }
+        return (int) total;
     }
 
     /**
