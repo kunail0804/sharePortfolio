@@ -40,6 +40,21 @@ class ActionsListTest {
     }
 
     @Test
+    void testaddActionDispoAddTwoTimesSameActionShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(action1));
+    }
+
+    @Test
+    void testAddActionDispoAddTwoActionsWithSameNameShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        final ActionSimple actionDuplicate = new ActionSimple("Test1");
+        actionsDisponible.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(actionDuplicate));
+    }
+
+    @Test
     void testgetActionsDispoShouldReturnOnlyAvailableActions() {
         final ActionsList actionsDisponible = new ActionsList();
         actionsDisponible.addActionDispo(action1);
@@ -47,6 +62,64 @@ class ActionsListTest {
         action1.enrgCours(new Jour(DEFAULT_YEAR, DEFAULT_DAY), 10);
         assertEquals(1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
         assertEquals(action1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).get(0));
+    }
+
+    @Test
+    void testaddActionInDispoAddTwoTimesSameActionShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(action1));
+    }
+
+    @Test
+    void testAddActionInDispoAddTwoActionsWithSameNameShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        final ActionSimple actionDuplicate = new ActionSimple("Test1");
+        actionsDisponible.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(actionDuplicate));
+    }
+
+    @Test
+    void testgetActionsIndispoShouldReturnOnlyUnavailableActions() {
+        final ActionsList actionsIndisponible = new ActionsList();
+        actionsIndisponible.addActionIndispo(action1);
+        actionsIndisponible.addActionIndispo(action2);
+        action1.enrgCours(new Jour(DEFAULT_YEAR, DEFAULT_DAY), 10);
+        assertEquals(2, actionsIndisponible.getActionsIndispo().size());
+        assertEquals(action1, actionsIndisponible.getActionsIndispo().get(0));
+    }
+
+    @Test
+    void testDeactivateActionShouldMoveActionToIndisponibleList() {
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        actionsDisponible.deactivateAction(action1);
+        assertEquals(0, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
+        assertEquals(1, actionsDisponible.getActionsIndispo().size());
+        assertEquals(action1, actionsDisponible.getActionsIndispo().get(0));
+    }
+
+    @Test
+    void testDeactivateActionNotInDispoShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.deactivateAction(action1)  );
+    }
+
+    @Test
+    void testActivateActionShouldMoveActionToDispoList() {
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionIndispo(action1);
+        actionsDisponible.activateAction(action1);
+        Jour jour = new Jour(DEFAULT_YEAR, DEFAULT_DAY);
+        action1.enrgCours(jour, 10);
+        assertEquals(1, actionsDisponible.getActionsDispo(jour).size());
+        assertEquals(0, actionsDisponible.getActionsIndispo().size());
+        assertEquals(action1, actionsDisponible.getActionsDispo(jour).get(0));
+    }
+    @Test
+    void testActivateActionNotInIndispoShouldThrowException() {
+        final ActionsList actionsDisponible = new ActionsList();
+        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.activateAction(action1)  );
     }
 
     @Test
