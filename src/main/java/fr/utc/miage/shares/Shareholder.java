@@ -31,7 +31,7 @@ public class Shareholder extends User {
         this.portefeuille = new HashMap<>();
     }
 
-    // Méthode pour ajouter une action au portefeuille du shareholder. Si l'action existe déjà, on met à jour le prix d'achat et la quantité. Sinon, on ajoute une nouvelle entrée dans le portefeuille
+    // Method to add an action to the shareholder's portfolio. If the action already exists in the portfolio, we update the quantity and the total price of the action. If the action does not exist in the portfolio, we add it with the given quantity and price. We also check that the price is not negative and that the quantity is positive.
     public void addAction(Action action, double prixAchat, int quantite){
 
         if(prixAchat<0){
@@ -61,7 +61,7 @@ public class Shareholder extends User {
         }
     } 
 
-    // Méthode pour vendre une action du portefeuille du shareholder. Si l'action n'existe pas, on lance une exception. Si la quantité à vendre est supérieure à la quantité possédée, on lance une exception. Sinon, on met à jour la quantité de l'action dans le portefeuille et si la quantité devient 0, on supprime l'action du portefeuille
+    // Method to sell an action from the shareholder's portfolio. If the action does not exist, we throw an exception. If the quantity to sell is greater than the quantity owned, we throw an exception. Otherwise, we update the quantity of the action in the portfolio and if the quantity becomes 0, we remove the action from the portfolio
     public void sellAction(Action action, int quantite){
         if(quantite<=0){
             throw new IllegalArgumentException("La quantité est négative ou égale à 0");
