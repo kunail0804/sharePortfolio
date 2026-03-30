@@ -1,13 +1,49 @@
+/*
+ * Copyright 2025 David Navarre <David.Navarre at irit.fr>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.utc.miage.shares;
 
+import fr.utc.miage.shares.Role;
+
+/**
+ * Represents an administrator user with special privileges.
+ * Extends the base Utilisateur class.
+ *
+ * @author David Navarre &lt;David.Navarre at irit.fr&gt;
+ */
 public class Administrateur extends Utilisateur {
 
-
+    /**
+     * Constructs an administrator with the given login and password.
+     * Automatically sets the role to ADMIN.
+     *
+     * @param login the administrator's login
+     * @param password the administrator's password
+     */
     public Administrateur(String login, String password) {
         super(login, password);
         this.setRole(Role.ADMIN);
     }
 
+    /**
+     * Authenticates the administrator with the provided credentials.
+     *
+     * @param login the login to verify
+     * @param password the password to verify
+     * @throws IllegalArgumentException if the login or password is incorrect
+     */
     public void login(String login, String password) {
         if (this.getLogin().equals(login) && this.getPassword().equals(password)) {
             System.out.println("Connexion réussie en tant qu'administrateur.");
@@ -16,28 +52,21 @@ public class Administrateur extends Utilisateur {
         }
     }
 
-    //getters and setters
+    /**
+     * Sets the role of the administrator.
+     *
+     * @param role the role to set
+     */
     public void setRole(Role role) {
         this.role = role;
     }
+    
+    /**
+     * Gets the role of the administrator.
+     *
+     * @return the role of the administrator
+     */
     public Role getRole() {
-        return this.getRole();
+        return this.role;
     }
-
-    public void setLogin(String login) {
-        this.
-    
-    public String getLogin() {
-        return this.getLogin();
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getPassword() {
-        return this.getPassword();
-    }
-
-    
-    
 }
