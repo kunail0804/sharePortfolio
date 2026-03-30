@@ -62,24 +62,28 @@ public class UserTest {
     void testGetNameShouldReturnCorrectName(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("Doe", user.getName());
+        User.resetUsers();
     }
 
     @Test
     void testGetFirstnameShouldReturnCorrectFirstname(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("John", user.getFirstname());
+        User.resetUsers();
     }
 
     @Test
     void testGetEmailShouldReturnCorrectEmail(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("test@example.com", user.getEmail());
+        User.resetUsers();
     }
 
     @Test
     void testGetPasswordShouldReturnCorrectPassword(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("password", user.getPassword());
+        User.resetUsers();
     }
 
     @Test
