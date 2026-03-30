@@ -87,6 +87,14 @@ public abstract class Action {
      *
      * @return a hash code value for this object
      */
+     * Checks if the action object is the same as another one.
+     * @param a
+     * @return
+     */
+    public boolean isSame(final Action a) {
+        return this.getLibelle().equals(a.getLibelle());
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

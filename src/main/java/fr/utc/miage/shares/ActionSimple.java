@@ -28,7 +28,7 @@ public class ActionSimple extends Action {
 
     private static final int DEFAULT_ACTION_VALUE = 0;
 
-    // attribut lien
+    // map of the value of the action for each day
     private final Map<Jour, Float> mapCours;
 
     /**
@@ -37,9 +37,9 @@ public class ActionSimple extends Action {
      * @param libelle the name of the simple action
      */
     public ActionSimple(final String libelle) {
-        // Action simple initialisée comme 1 action
+        // call the constructor of the superclass
         super(libelle);
-        // init spécifique
+        // initialize the map of the value of the action for each day
         this.mapCours = new HashMap<>();
     }
 
@@ -56,6 +56,9 @@ public class ActionSimple extends Action {
         }
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
+        }
+        else {
+            throw new IllegalArgumentException("Cours déjà enregistré pour ce jour");
         }
     }
 
