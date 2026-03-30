@@ -141,6 +141,17 @@ class ActionComposeeTest {
             actionComposee.valeur(jour);
         });
     }
+
+    @Test
+    void testValeur_CompositionValide() {
+        init();
+        actionComposee.addAction(action1, PERCENT_35);
+        actionComposee.addAction(action2, PERCENT_50);
+        actionComposee.addAction(action3, PERCENT_15);
+        double valeur = actionComposee.valeur(jour);
+        double expectedValeur = (VALUE_100 * PERCENT_35 / 100) + (VALUE_200 * PERCENT_50 / 100) + (VALUE_150 * PERCENT_15 / 100);
+        assertEquals(expectedValeur, valeur, 0.001, "Calculated value should match expected value based on composition");
+    }
     
 
 

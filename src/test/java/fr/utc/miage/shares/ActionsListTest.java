@@ -144,4 +144,43 @@ class ActionsListTest {
         action.enrgCours(jour, 10);
         assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, 20));
     }
+
+    @Test
+    void testRemoveActionNotExistingShouldThrowException() {
+        ActionsList.resetAll();
+        final ActionSimple action = new ActionSimple("Test");
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.removeAction(action));
+    }
+
+    @Test
+    void testRemoveActionNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.removeAction(null));
+    }
+
+    @Test
+    void testAddActionDispoNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(null));
+    }
+
+    @Test
+    void testAddActionIndispoNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionIndispo(null));
+    }
+
+    @Test
+    void testAddActionDispoAlreadyInDispoShouldThrowException() {
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(action1));
+    }
+
+    @Test
+    void testAddActionIndispoAlreadyInIndispoShouldThrowException() {
+        ActionsList.resetAll();
+        ActionsList.addActionIndispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionIndispo(action1));
+    }
 }

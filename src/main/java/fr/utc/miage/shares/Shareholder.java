@@ -116,9 +116,6 @@ public class Shareholder extends User {
             Action action = entry.getKey();
             Integer quantite = entry.getValue();
             double prixActuel = action.valeur(new Jour());
-            if(prixActuel<0){
-                throw new IllegalArgumentException("Le prix actuel de l'action est négatif");
-            }
             valeur += quantite * prixActuel;
         }
         return valeur;

@@ -46,9 +46,6 @@ public class ActionsList {
 
     // get the list of available actions for a given day
     public static List<Action> getActionsDispo(final Jour j) {
-        if (j == null) {
-            throw new IllegalArgumentException("Le jour ne peut pas être null");
-        }
         final ArrayList<Action> actionsList = new ArrayList<>();
         for (final Action a : actionsDisponibles) {
             if (a.valeur(j) != 0) {
@@ -78,25 +75,11 @@ public class ActionsList {
 
     // verifie if an action is in the disponible list
     public static boolean isActionDispo(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
-        return this.actionsDisponibles.contains(a);
-    }
-
-    // verifie if an action is in the disponible list
-    public static boolean isActionDispo(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
         return actionsDisponibles.contains(a);
     }
 
     // deactivate an action and move it to the list of unavailable actions
     public static void deactivateAction(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
         if (!actionsDisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in available actions");
         }
@@ -106,9 +89,6 @@ public class ActionsList {
 
     // activate an action and move it to the list of available actions
     public static void activateAction(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
         if (!actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in unavailable actions");
         }
@@ -131,7 +111,7 @@ public class ActionsList {
         if (a == null) {
             throw new IllegalArgumentException("Action cannot be null");
         }
-        if (!this.actionsDisponibles.contains(a)) {
+        if (!actionsDisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in available actions");
         }
         actionsDisponibles.remove(a);

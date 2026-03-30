@@ -38,8 +38,10 @@ class ShareholderTest {
     @Test
     void testNewAddActionShouldWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         action.enrgCours(new Jour(), 100);
         sh.addAction(action, new Jour(), 2);
@@ -55,8 +57,10 @@ class ShareholderTest {
     @Test
     void testAddActionExistingActionShouldWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
 
         sh.addAction(action, new Jour(), 2);
@@ -72,8 +76,10 @@ class ShareholderTest {
     @Test
     void testAddActionNegativePriceShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.addAction(action, new Jour(), -2);
@@ -83,8 +89,10 @@ class ShareholderTest {
     @Test
     void testAddActionNotNull(){
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         Double[] listAction = null;
 
@@ -94,6 +102,7 @@ class ShareholderTest {
     @Test
     void testAddActionNullActionShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -104,8 +113,10 @@ class ShareholderTest {
     @Test
     void testAddInvalidQuantityShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.addAction(action, new Jour(), 0);
@@ -116,8 +127,10 @@ class ShareholderTest {
     @Test
     void testAddNegativeQuantityShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.addAction(action, new Jour(), -5);
@@ -128,8 +141,10 @@ class ShareholderTest {
     @Test
     void testSellActionShouldWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
 
         sh.addAction(action, new Jour(), 5);
@@ -143,8 +158,10 @@ class ShareholderTest {
     @Test
     void testSellExactAllQuantityRemoveActionShouldWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
         sh.addAction(action, new Jour(), 3);
         sh.sellAction(action, 3);
@@ -157,8 +174,10 @@ class ShareholderTest {
     @Test
     void testSellTooMuchShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
 
         sh.addAction(action, new Jour(), 2);
@@ -169,8 +188,10 @@ class ShareholderTest {
     @Test
     void testSellInvalidQuantityShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
         sh.addAction(action, new Jour(), 2);
 
@@ -180,8 +201,10 @@ class ShareholderTest {
     @Test
     void testSellNegativeQuantityShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
         action.enrgCours(new Jour(), 100);
 
         sh.addAction(action, new Jour(), 2);
@@ -202,8 +225,10 @@ class ShareholderTest {
     @Test
     void testSellNonExistingActionShouldNotWork() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action = new ActionSimple("AAPL");
+        ActionsList.addActionDispo(action);
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.sellAction(action, 1);
@@ -220,10 +245,13 @@ class ShareholderTest {
     @Test
     void testGetvaleurportefeuilleactuelWithNonEmptyPortfolioShouldReturnCorrectValue() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action1 = new ActionSimple("AAPL");
         ActionSimple action2 = new ActionSimple("GOOGL");
         Jour today = new Jour();
+        ActionsList.addActionDispo(action1);
+        ActionsList.addActionDispo(action2);
         action1.enrgCours(today, 150f);
         action2.enrgCours(today,250f);
         sh.addAction(action1, today, 5);
@@ -234,9 +262,12 @@ class ShareholderTest {
     @Test
     void testGetValeurPortefeuilleActuelWithActionsBoughtInThePastShouldReturnDifferentCurrentValue() {
         Shareholder.resetUsers();
+        ActionsList.resetAll();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
         ActionSimple action1 = new ActionSimple("AAPL");
         ActionSimple action2 = new ActionSimple("GOOGL");
+        ActionsList.addActionDispo(action1);
+        ActionsList.addActionDispo(action2);
         Jour pastDay = new Jour(2024, 1);
         action1.enrgCours(pastDay, 150f);
         action2.enrgCours(pastDay,250f);

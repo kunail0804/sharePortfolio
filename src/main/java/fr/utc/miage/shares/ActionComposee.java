@@ -101,7 +101,7 @@ public class ActionComposee extends Action {
      * @throws IllegalStateException if the composition is not valid (total != 100%)
      */
     @Override
-    public float valeur(Jour j) {
+    public double valeur(Jour j) {
         if (!validerComposition()) {
             throw new IllegalStateException("La composition n'est pas valide (total != 100%)");
         }

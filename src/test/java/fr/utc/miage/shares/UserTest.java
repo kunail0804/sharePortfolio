@@ -164,6 +164,4 @@ public class UserTest {
         assertEquals("User{email=test@example.com, name=Doe, firstname=John}", user.toString());
         User.resetUsers();
     }
-
-
 }

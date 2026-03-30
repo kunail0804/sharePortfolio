@@ -51,9 +51,6 @@ public class ActionSimple extends Action {
      * @param v the price value to record
      */
     public void enrgCours(final Jour j, final float v) {
-        if (j == null) {
-            throw new IllegalArgumentException("Le jour ne peut pas être null");
-        }
         if (v <= 0) {
             throw new IllegalArgumentException("La valeur doit être strictement positive");
         }
