@@ -98,4 +98,17 @@ class ActionTest {
         }
     }
 
+    @Test
+    void testEtatActionDefaultValue() {
+        final Action action = new ActionImpl(FOO_SHARE1);
+        Assertions.assertFalse(action.isActive(), "Default value of etatAction should be false");
+    }
+
+    @Test
+    void testSetEtatAction() {
+        final Action action = new ActionImpl(FOO_SHARE1);
+        action.setEtatAction(true);
+        Assertions.assertTrue(action.isActive(), "After setting etatAction to true, isActive should return true");
+    }
+
 }

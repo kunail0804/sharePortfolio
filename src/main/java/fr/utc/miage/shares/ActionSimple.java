@@ -40,6 +40,9 @@ public class ActionSimple extends Action {
 
     // enrg possible si pas de cours pour ce jour
     public void enrgCours(final Jour j, final float v) {
+        if (v <= 0) {
+            throw new IllegalArgumentException("La valeur doit être strictement positive");
+        }
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
         }

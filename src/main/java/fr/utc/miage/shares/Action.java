@@ -25,7 +25,7 @@ import java.util.Objects;
 public abstract class Action {
 
     private final String libelle;
-    private boolean etat_action = false;//etat d'action par defaut
+    private boolean etatAction = false;//etat d'achat d'une action par defaut
 
     /**
      * Get the value of libelle
@@ -42,6 +42,10 @@ public abstract class Action {
      * @param libelle the name of the action object
      */
     protected Action(final String libelle) {
+        if (libelle == null || libelle.trim().isEmpty()) {
+            throw new IllegalArgumentException("Libelle cannot be null or empty");
+        }
+
         this.libelle = libelle;
     }
 
@@ -54,12 +58,12 @@ public abstract class Action {
     public abstract float valeur(Jour j);
 
     // pour savoir l'etat d'action
-    public boolean isEtat_action() {
-        return etat_action;
+    public boolean isActive() {
+        return etatAction;
     }
     // setter pour changer l'etat d'action
-    public void setEtat_action(boolean etat_action) {
-        this.etat_action = etat_action;
+    public void setEtatAction(boolean etatAction) {
+        this.etatAction = etatAction;
     }
 
 

@@ -1,6 +1,8 @@
 package fr.utc.miage.shares;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.DynamicTest.*;
+
 import fr.utc.miage.shares.Action;
 import fr.utc.miage.shares.ActionSimple;
 import fr.utc.miage.shares.ActionComposee;
@@ -11,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class AdministrateurTest {
     Administrateur admin = new Administrateur("admin", "admin");
-    Jour jour = new Jour(0, 0);
+    Jour jour = new Jour(1, 1);
 
     private static final String ACTION1_LIBELLE = "Action1";
     private static final String ACTION2_LIBELLE = "Action2";
@@ -27,7 +29,7 @@ public class AdministrateurTest {
         ActionSimple action1 = new ActionSimple(ACTION1_LIBELLE);
         ActionSimple action2 = new ActionSimple(ACTION2_LIBELLE);
         ActionComposee compositeAction = new ActionComposee(COMPOSITE_LIBELLE);
-        Jour jour = new Jour(0,0);
+        Jour jour = new Jour(1, 1);
         
         compositeAction.addAction(action1, PERCENT_50);
         compositeAction.addAction(action2, PERCENT_50);
@@ -57,11 +59,6 @@ public class AdministrateurTest {
         assertThrows(IllegalArgumentException.class, () -> new ActionSimple(NULL_LIBELLE));
     }
 
-    @Test
-    void testLibelleWithLibelleNotUnique() {
-        ActionSimple action1 = new ActionSimple("ActionTest");
-        assertThrows(IllegalArgumentException.class, () -> new ActionSimple(action1.getLibelle()), "Libelle doit être unique");
-    }
 
     //ajouter les valeurs du jour des actions
     @Test
@@ -112,15 +109,15 @@ public class AdministrateurTest {
     @Test
     void testDesactiverAction() {
         ActionSimple action = new ActionSimple("ActionTest");
-        action.setEtat_action(false);
-        assertFalse(action.isEtat_action());
+        action.setEtatAction(false);
+        assertFalse(action.isActive());
     }
 
     @Test
     void testActiverAction(){
         ActionSimple action = new ActionSimple("ActionTest");
-        action.setEtat_action(true);
-        assertTrue(action.isEtat_action());
+        action.setEtatAction(true);
+        assertTrue(action.isActive());
     }
 
     

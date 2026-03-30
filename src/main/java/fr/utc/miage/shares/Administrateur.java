@@ -23,21 +23,4 @@ public class Administrateur extends Utilisateur {
     public Role getRole() {
         return this.getRole();
     }
-
-    public void setLogin(String login) {
-        this.
-    
-    public String getLogin() {
-        return this.getLogin();
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getPassword() {
-        return this.getPassword();
-    }
-
-    
-    
 }
