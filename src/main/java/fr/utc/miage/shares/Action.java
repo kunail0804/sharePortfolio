@@ -50,7 +50,7 @@ public abstract class Action {
      * @param j
      * @return
      */
-    public abstract float valeur(Jour j);
+    public abstract double valeur(Jour j);
 
     /**
      * Checks if the action object is the same as another one.

@@ -49,7 +49,7 @@ public class ActionSimple extends Action {
     }
 
     @Override
-    public float valeur(final Jour j) {
+    public double valeur(final Jour j) {
         if (this.mapCours.containsKey(j)) {
             return this.mapCours.get(j);
         } else {

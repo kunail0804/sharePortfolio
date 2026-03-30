@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class Shareholder extends User {
 
-    private final Map<Action, Double[]> portefeuille;
+    private final Map<Action, Integer> portefeuille;
 
     public Shareholder(String email, String password, String name, String firstname) {
         super(email, password, name, firstname);
@@ -32,62 +32,74 @@ public class Shareholder extends User {
     }
 
     // Method to add an action to the shareholder's portfolio. If the action already exists in the portfolio, we update the quantity and the total price of the action. If the action does not exist in the portfolio, we add it with the given quantity and price. We also check that the price is not negative and that the quantity is positive.
-    public void addAction(Action action, double prixAchat, int quantite){
+    //This implementation is not optimal
+    public void addAction(Action action, Jour j, int quantite){
 
-        if(prixAchat<0){
-            throw new IllegalArgumentException("Le prix est négatif");
+        if(action==null){
+            throw new IllegalArgumentException("L'action est null");
+        }
+
+        if(action.valeur(j)<=0){
+            throw new IllegalArgumentException("Le prix est nul ou négatif");
         }
 
         if(quantite<=0){
             throw new IllegalArgumentException("La quantité est négative ou égale à 0");
         }
-
-        if(action==null){
-            throw new IllegalArgumentException("L'action est null");
-        }
-        Double[] listAction = portefeuille.get(action);
+        Integer listAction = portefeuille.get(action);
 
         if(listAction!=null){
-            listAction[0]+=prixAchat;
-            listAction[1]+=quantite;
+            listAction+=quantite;
 
             portefeuille.put(action, listAction);
             
         }else{
-            Double[] newListAction = new Double[2];
-            newListAction[0] =prixAchat;
-            newListAction[1]= (double) quantite;
-            portefeuille.put(action, newListAction);
+            portefeuille.put(action, quantite);
         }
     } 
 
     // Method to sell an action from the shareholder's portfolio. If the action does not exist, we throw an exception. If the quantity to sell is greater than the quantity owned, we throw an exception. Otherwise, we update the quantity of the action in the portfolio and if the quantity becomes 0, we remove the action from the portfolio
     public void sellAction(Action action, int quantite){
-        if(quantite<=0){
-            throw new IllegalArgumentException("La quantité est négative ou égale à 0");
-        }
-
         if(action==null){
             throw new IllegalArgumentException("L'action est null");
         }
-        Double[] listAction = portefeuille.get(action);
+
+        if(quantite<=0){
+            throw new IllegalArgumentException("La quantité est négative ou égale à 0");
+        }
+        Integer listAction = portefeuille.get(action);
 
         if(listAction==null){
             throw new IllegalArgumentException("Cette action n'est pas présente dans ce portefeuille");
         }else{
-            if(listAction[1]>=quantite){
-                listAction[1]-=quantite;
+            if(listAction>=quantite){
+                listAction-=quantite;
                 portefeuille.put(action, listAction);
-                if(listAction[1] == 0){
+                if(listAction == 0){
                     portefeuille.remove(action);
                 }
             }else{
-                throw new IllegalArgumentException("La quantite à vendre est supèrieur à la quantité posseder");
+                throw new IllegalArgumentException("La quantite à vendre est supèrieur à la quantité possedée");
             }
         }
     }
 
-    public Map<Action, Double[]> getPortefeuille(){
+    public Map<Action, Integer> getPortefeuille(){
         return portefeuille;
+    }
+
+    // Method to get the total value of the portfolio by multiplying the quantity of each action by its current price and summing the results. We also check that the price of each action is not negative.
+    public double getValeurPortefeuilleActuel(){
+        double valeur = 0;
+        for(Map.Entry<Action, Integer> entry : portefeuille.entrySet()){
+            Action action = entry.getKey();
+            Integer quantite = entry.getValue();
+            double prixActuel = action.valeur(new Jour());
+            if(prixActuel<0){
+                throw new IllegalArgumentException("Le prix actuel de l'action est négatif");
+            }
+            valeur += quantite * prixActuel;
+        }
+        return valeur;
     }
 }

@@ -37,190 +37,213 @@ class ShareholderTest {
 
     @Test
     void testNewAddActionShouldWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
-        sh.addAction(action, 100.0, 2);
+        action.enrgCours(new Jour(), 100);
+        sh.addAction(action, new Jour(), 2);
 
-        Double[] data = sh.getPortefeuille().get(action);
+        Integer data = sh.getPortefeuille().get(action);
 
         assertNotNull(data);
-        assertEquals(100.0, data[0]);
-        assertEquals(2.0, data[1]);
+        assertEquals(100.0, action.valeur(new Jour()));
+        assertEquals(2, data);
 
-        Shareholder.resetUsers();
     }
 
     @Test
     void testAddActionExistingActionShouldWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
 
-        sh.addAction(action, 100.0, 2);
-        sh.addAction(action, 15.0, 3);
+        sh.addAction(action, new Jour(), 2);
+        sh.addAction(action, new Jour(), 3);
 
-        Double[] data = sh.getPortefeuille().get(action);
+        Integer data = sh.getPortefeuille().get(action);
 
         assertNotNull(data);
-        assertEquals(115.0, data[0]);
-        assertEquals(5.0, data[1]);
-
-        Shareholder.resetUsers();
+        assertEquals(5, data);
+        
     }
 
     @Test
     void testAddActionNegativePriceShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            sh.addAction(action, -10.0, 2);
+            sh.addAction(action, new Jour(), -2);
         });
-
-        Shareholder.resetUsers();
     }
 
     @Test
     void testAddActionNotNull(){
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
         Double[] listAction = null;
 
         assertEquals(listAction, sh.getPortefeuille().get(action));
-
-        Shareholder.resetUsers();
-
     }
 
     @Test
     void testAddActionNullActionShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            sh.addAction(null, 100.0, 2);
+            sh.addAction(null, new Jour(), 2);
         });
-
-        Shareholder.resetUsers();
     }
 
     @Test
     void testAddInvalidQuantityShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            sh.addAction(action, 100.0, 0);
+            sh.addAction(action, new Jour(), 0);
         });
 
-        Shareholder.resetUsers();
     }
 
     @Test
     void testAddNegativeQuantityShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            sh.addAction(action, 100.0, -5);
+            sh.addAction(action, new Jour(), -5);
         });
 
-        Shareholder.resetUsers();
     }
 
     @Test
     void testSellActionShouldWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
 
-        sh.addAction(action, 100.0, 5);
+        sh.addAction(action, new Jour(), 5);
         sh.sellAction(action, 3);
 
-        Double[] data = sh.getPortefeuille().get(action);
+        Integer data = sh.getPortefeuille().get(action);
 
-        assertEquals(2.0, data[1]);
-
-        Shareholder.resetUsers();
+        assertEquals(2, data);
     }
 
     @Test
     void testSellExactAllQuantityRemoveActionShouldWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
-
-        sh.addAction(action, 100.0, 3);
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
+        sh.addAction(action, new Jour(), 3);
         sh.sellAction(action, 3);
 
-        Double[] data = sh.getPortefeuille().get(action);
+        Integer data = sh.getPortefeuille().get(action);
 
         assertNull(data);
-
-        Shareholder.resetUsers();
     }
 
     @Test
     void testSellTooMuchShouldNotWork() {
-        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
-
-        sh.addAction(action, 100.0, 2);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            sh.sellAction(action, 5);
-        });
-
         Shareholder.resetUsers();
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
+
+        sh.addAction(action, new Jour(), 2);
+
+        assertThrows(IllegalArgumentException.class, () -> sh.sellAction(action, 5));
     }
 
     @Test
     void testSellInvalidQuantityShouldNotWork() {
-        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
-
-        sh.addAction(action, 100.0, 2);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            sh.sellAction(action, 0);
-        });
-
         Shareholder.resetUsers();
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
+        sh.addAction(action, new Jour(), 2);
+
+        assertThrows(IllegalArgumentException.class, () -> sh.sellAction(action, 0));
     }
 
     @Test
     void testSellNegativeQuantityShouldNotWork() {
-        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
-
-        sh.addAction(action, 100.0, 2);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            sh.sellAction(action, -3);
-        });
-
         Shareholder.resetUsers();
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        ActionSimple action = new ActionSimple("AAPL");
+        action.enrgCours(new Jour(), 100);
+
+        sh.addAction(action, new Jour(), 2);
+
+        assertThrows(IllegalArgumentException.class, () -> sh.sellAction(action, -3));
     }
 
     @Test
     void testSellNullActionShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.sellAction(null, 1);
         });
-
-        Shareholder.resetUsers();
     }
 
     @Test
     void testSellNonExistingActionShouldNotWork() {
+        Shareholder.resetUsers();
         Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
-        Action action = new ActionSimple("AAPL");
+        ActionSimple action = new ActionSimple("AAPL");
 
         assertThrows(IllegalArgumentException.class, () -> {
             sh.sellAction(action, 1);
         });
+    }
 
+    @Test
+    void testGetvaleurportefeuilleactuelWithEmptyPortfolioShouldReturnZero() {
         Shareholder.resetUsers();
-    }   
-    
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        assertEquals(0.0, sh.getValeurPortefeuilleActuel());
+    }
+
+    @Test
+    void testGetvaleurportefeuilleactuelWithNonEmptyPortfolioShouldReturnCorrectValue() {
+        Shareholder.resetUsers();
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        ActionSimple action1 = new ActionSimple("AAPL");
+        ActionSimple action2 = new ActionSimple("GOOGL");
+        Jour today = new Jour();
+        action1.enrgCours(today, 150f);
+        action2.enrgCours(today,250f);
+        sh.addAction(action1, today, 5);
+        sh.addAction(action2, today, 3);
+        assertEquals(150.0 * 5 + 250.0 * 3, sh.getValeurPortefeuilleActuel());
+    }
+
+    @Test
+    void testGetValeurPortefeuilleActuelWithActionsBoughtInThePastShouldReturnDifferentCurrentValue() {
+        Shareholder.resetUsers();
+        Shareholder sh = new Shareholder("test@mail.com", "pwd", "Doe", "John");
+        ActionSimple action1 = new ActionSimple("AAPL");
+        ActionSimple action2 = new ActionSimple("GOOGL");
+        Jour pastDay = new Jour(2024, 1);
+        action1.enrgCours(pastDay, 150f);
+        action2.enrgCours(pastDay,250f);
+        action1.enrgCours(new Jour(), 200f);
+        action2.enrgCours(new Jour(),300f);
+        sh.addAction(action1, pastDay, 5);
+        sh.addAction(action2, pastDay, 3);
+        assertEquals(200.0 * 5 + 300.0 * 3, sh.getValeurPortefeuilleActuel());
+    }
 }
