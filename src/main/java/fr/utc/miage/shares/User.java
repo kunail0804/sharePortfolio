@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 David Navarre &lt;David.Navarre at irit.fr&gt;.
+ * Copyright 2024 David Navarre <David.Navarre at irit.fr>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ public class User {
     // We store the active user in a static variable to manage logins and logouts.
     private static User activeUser;
 
+    private List<Action> favoris;
+
     public User(final String email, final String password, final String name, final String firstname){
         // We check that the email is valid using a regular expression. If the email is not valid, we throw an exception to indicate that the user cannot be created. We also check that the email is unique in the list of users. If the email is not unique, we throw an exception to indicate that the user cannot be created. If the email is valid and unique, we set the user's email, password, name and firstname, add the user to the list of users and set the active user to this user.
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -46,6 +48,7 @@ public class User {
             this.password = password;
             this.name = name;
             this.firstname = firstname;
+            this.favoris = new ArrayList<>();
             users.add(this);
             setActiveUser(this);
         } else{
@@ -89,6 +92,45 @@ public class User {
         activeUser = user;
     } 
 
+    /**
+     * Adds an action to the user's favorites list.
+     * 
+     * @param action the action to add to favorites
+     */
+    public void ajouterFavoris(Action action) {
+        if (!favoris.contains(action)) {
+            favoris.add(action);
+        }
+    }
+
+    /**
+     * Removes an action from the user's favorites list.
+     * 
+     * @param action the action to remove from favorites
+     */
+    public void retirerFavoris(Action action) {
+        favoris.remove(action);
+    }
+
+    /**
+     * Returns the list of favorite actions.
+     * 
+     * @return a copy of the favorites list
+     */
+    public List<Action> getFavoris() {
+        return new ArrayList<>(favoris);
+    }
+
+    /**
+     * Checks if an action is already in favorites.
+     * 
+     * @param action the action to check
+     * @return true if the action is already in favorites, false otherwise
+     */
+    public boolean estDejaEnFavoris(Action action) {
+        return favoris.contains(action);
+    }
+
     // Method to check if the email is unique in the list of users
     public static boolean isUnique(final String email){
         for(int i = 0; i < users.size(); i++){
@@ -124,7 +166,6 @@ public class User {
         users.clear();
         setActiveUser(null);
     }
-
 
     @Override
     public String toString() {

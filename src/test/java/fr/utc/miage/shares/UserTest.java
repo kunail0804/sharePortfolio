@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 David Navarre &lt;David.Navarre at irit.fr&gt;.
+ * Copyright 2024 David Navarre <David.Navarre at irit.fr>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class UserTest {
@@ -154,6 +156,93 @@ public class UserTest {
     void testToStringShouldReturnCorrectString(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("User{email=test@example.com, name=Doe, firstname=John}", user.toString());
+        User.resetUsers();
+    }
+
+    @Test
+    void testAjouterFavoris_ShouldAddAction() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action = new ActionSimple("ActionTest");
+        
+        user.ajouterFavoris(action);
+        
+        assertEquals(1, user.getFavoris().size());
+        assertTrue(user.getFavoris().contains(action));
+        User.resetUsers();
+    }
+
+    @Test
+    void testAjouterFavoris_ActionDejaEnFavoris_ShouldNotDuplicate() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action = new ActionSimple("ActionTest");
+        
+        user.ajouterFavoris(action);
+        assertEquals(1, user.getFavoris().size());
+        
+        user.ajouterFavoris(action);
+        
+        assertEquals(1, user.getFavoris().size());
+        assertTrue(user.getFavoris().contains(action));
+        User.resetUsers();
+    }
+
+    @Test
+    void testRetirerFavoris_ShouldRemoveAction() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action = new ActionSimple("ActionTest");
+        
+        user.ajouterFavoris(action);
+        assertEquals(1, user.getFavoris().size());
+        
+        user.retirerFavoris(action);
+        
+        assertTrue(user.getFavoris().isEmpty());
+        User.resetUsers();
+    }
+
+    @Test
+    void testEstDejaEnFavoris() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action = new ActionSimple("ActionTest");
+        
+        assertFalse(user.estDejaEnFavoris(action));
+        
+        user.ajouterFavoris(action);
+        assertTrue(user.estDejaEnFavoris(action));
+        User.resetUsers();
+    }
+
+    @Test
+    void testGetFavoris_ListeBienRecuperee() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action1 = new ActionSimple("Action1");
+        ActionSimple action2 = new ActionSimple("Action2");
+        ActionComposee action3 = new ActionComposee("CompositeAction");
+        
+        user.ajouterFavoris(action1);
+        user.ajouterFavoris(action2);
+        user.ajouterFavoris(action3);
+        
+        List<Action> favoris = user.getFavoris();
+        
+        assertEquals(3, favoris.size());
+        assertTrue(favoris.contains(action1));
+        assertTrue(favoris.contains(action2));
+        assertTrue(favoris.contains(action3));
+        User.resetUsers();
+    }
+
+    @Test
+    void testGetFavoris_ShouldReturnCopy() {
+        User user = new User("test@example.com", "password", "Doe", "John");
+        ActionSimple action = new ActionSimple("ActionTest");
+        
+        user.ajouterFavoris(action);
+        
+        List<Action> favoris = user.getFavoris();
+        favoris.clear();
+        
+        assertEquals(1, user.getFavoris().size());
         User.resetUsers();
     }
 }

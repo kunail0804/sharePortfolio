@@ -30,7 +30,6 @@ class ShareholderTest {
     private Jour jourEvaluation;
 
     public void initialize() {
-        // 重要：清理静态的 User 列表，防止多个测试由于邮箱重复而报错
         User.resetUsers();
         
         shareholder = new Shareholder("test@irit.fr", "password123", "Doe", "John");
