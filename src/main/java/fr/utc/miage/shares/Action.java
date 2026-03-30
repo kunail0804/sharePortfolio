@@ -27,15 +27,6 @@ public abstract class Action {
     private final String libelle;
 
     /**
-     * Get the value of libelle.
-     *
-     * @return the value of libelle
-     */
-    public String getLibelle() {
-        return libelle;
-    }
-
-    /**
      * Builds an Action object from a string parameter.
      *
      * @param libelle the name of the action object
@@ -47,6 +38,15 @@ public abstract class Action {
         }
 
         this.libelle = libelle;
+    }
+
+    /**
+     * Get the value of libelle.
+     *
+     * @return the value of libelle
+     */
+    public String getLibelle() {
+        return libelle;
     }
 
     /**

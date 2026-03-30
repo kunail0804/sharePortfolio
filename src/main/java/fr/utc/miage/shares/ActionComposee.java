@@ -25,7 +25,6 @@ import java.util.Map;
  */
 public class ActionComposee extends Action {
 
-    private static final float TOTAL_POURCENTAGE = 100.0f;
     private final Map<ActionSimple, Float> composition;
 
     /**
@@ -46,7 +45,7 @@ public class ActionComposee extends Action {
      * @throws IllegalArgumentException if percentage is not between 0 and 100
      */
     public void addAction(ActionSimple action, float pourcentage) {
-        if (pourcentage < 0 || pourcentage > TOTAL_POURCENTAGE) {
+        if (pourcentage <= 0 || pourcentage > 100 || action == null) {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100");
         }
         this.composition.put(action, pourcentage);
@@ -62,7 +61,7 @@ public class ActionComposee extends Action {
         for (float pourcentage : composition.values()) {
             total += pourcentage;
         }
-        return Math.abs(total - TOTAL_POURCENTAGE) < 0.0001f;
+        return (total == 100.0f);
     }
 
     /**
@@ -100,7 +99,7 @@ public class ActionComposee extends Action {
         for (Map.Entry<ActionSimple, Float> entry : composition.entrySet()) {
             ActionSimple action = entry.getKey();
             float pourcentage = entry.getValue();
-            valeurTotale += action.valeur(j) * (pourcentage / TOTAL_POURCENTAGE);
+            valeurTotale += action.valeur(j) * (pourcentage / 100.0f);
         }
         return valeurTotale;
     }

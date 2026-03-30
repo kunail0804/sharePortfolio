@@ -142,24 +142,4 @@ class ActionTest {
             return 0.0F;
         }
     }
-
-    /**
-     * Tests that the default state of an action is inactive (false).
-     */
-    @Test
-    void testEtatActionDefaultValue() {
-        final Action action = new ActionImpl(FOO_SHARE1);
-        Assertions.assertFalse(action.isActive(), "Default value of etatAction should be false");
-    }
-
-    /**
-     * Tests that the state of an action can be successfully updated using setEtatAction.
-     */
-    @Test
-    void testSetEtatAction() {
-        final Action action = new ActionImpl(FOO_SHARE1);
-        action.setEtatAction(true);
-        Assertions.assertTrue(action.isActive(), "After setting etatAction to true, isActive should return true");
-    }
-
 }

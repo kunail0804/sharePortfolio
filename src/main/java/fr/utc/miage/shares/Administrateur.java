@@ -15,58 +15,23 @@
  */
 package fr.utc.miage.shares;
 
-import fr.utc.miage.shares.Role;
-
 /**
  * Represents an administrator user with special privileges.
  * Extends the base Utilisateur class.
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
  */
-public class Administrateur extends Utilisateur {
+public class Administrateur extends User {
 
     /**
-     * Constructs an administrator with the given login and password.
-     * Automatically sets the role to ADMIN.
+     * Constructs an administrator
      *
-     * @param login the administrator's login
-     * @param password the administrator's password
+     * @param email 
+     * @param password
+     * @param name
+     * @param firstname
      */
-    public Administrateur(String login, String password) {
-        super(login, password);
-        this.setRole(Role.ADMIN);
-    }
-
-    /**
-     * Authenticates the administrator with the provided credentials.
-     *
-     * @param login the login to verify
-     * @param password the password to verify
-     * @throws IllegalArgumentException if the login or password is incorrect
-     */
-    public void login(String login, String password) {
-        if (this.getLogin().equals(login) && this.getPassword().equals(password)) {
-            System.out.println("Connexion réussie en tant qu'administrateur.");
-        } else {
-            throw new IllegalArgumentException("Login ou mot de passe incorrect.");
-        }
-    }
-
-    /**
-     * Sets the role of the administrator.
-     *
-     * @param role the role to set
-     */
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    
-    /**
-     * Gets the role of the administrator.
-     *
-     * @return the role of the administrator
-     */
-    public Role getRole() {
-        return this.role;
+    public Administrateur(final String email, final String password, final String name, final String firstname) {
+        super(email, password, name, firstname);
     }
 }

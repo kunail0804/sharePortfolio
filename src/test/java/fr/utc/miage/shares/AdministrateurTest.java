@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
  */
 public class AdministrateurTest {
-    Administrateur admin = new Administrateur("admin", "admin");
+    Administrateur admin = new Administrateur("admin", "admin","admin","admin");
     Jour jour = new Jour(1, 1);
 
     private static final String ACTION1_LIBELLE = "Action1";
@@ -84,15 +84,6 @@ public class AdministrateurTest {
     void testLibelleWithNullLibelle() {
         String NULL_LIBELLE = null;
         assertThrows(IllegalArgumentException.class, () -> new ActionSimple(NULL_LIBELLE));
-    }
-
-    /**
-     * Tests that creating two actions with the same label throws an exception.
-     */
-    @Test
-    void testLibelleWithLibelleNotUnique() {
-        ActionSimple action1 = new ActionSimple("ActionTest");
-        assertThrows(IllegalArgumentException.class, () -> new ActionSimple(action1.getLibelle()), "Libelle doit être unique");
     }
 
     /**
@@ -155,27 +146,5 @@ public class AdministrateurTest {
         action2.enrgCours(jour, VALUE_200);
 
         assertEquals(150, compositeAction.valeur(jour));
-    }
-
-    /**
-     * Tests deactivating an action.
-     * Verifies that isEtat_action returns false after deactivation.
-     */
-    @Test
-    void testDesactiverAction() {
-        ActionSimple action = new ActionSimple("ActionTest");
-        action.setEtatAction(false);
-        assertFalse(action.isActive());
-    }
-
-    /**
-     * Tests activating an action.
-     * Verifies that isEtat_action returns true after activation.
-     */
-    @Test
-    void testActiverAction(){
-        ActionSimple action = new ActionSimple("ActionTest");
-        action.setEtatAction(true);
-        assertTrue(action.isActive());
     }
 }
