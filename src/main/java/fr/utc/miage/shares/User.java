@@ -21,6 +21,9 @@ import java.util.List;
 /**
  * This class represents a user of the application. It contains the user's email, password, name and firstname. It also contains a static list of all users and a static variable for the active user.
  * The constructor checks that the email is valid and unique, and adds the user to the list of users. The class also contains methods for logging in, logging out, and resetting the list of users.
+ * 
+ * Note : it is not an abstract even if we never instantiate it. It is because we have a list of User
+ * 
  * @author Guilherme Sampaio &lt;
  */
 public class User {
@@ -37,6 +40,9 @@ public class User {
     private static User activeUser;
 
     public User(final String email, final String password, final String name, final String firstname){
+        if (email == null || password == null || name == null || firstname == null) {
+            throw new IllegalArgumentException("Les champs ne peuvent pas être vides.");
+        }
         // We check that the email is valid using a regular expression. If the email is not valid, we throw an exception to indicate that the user cannot be created. We also check that the email is unique in the list of users. If the email is not unique, we throw an exception to indicate that the user cannot be created. If the email is valid and unique, we set the user's email, password, name and firstname, add the user to the list of users and set the active user to this user.
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             throw new IllegalArgumentException("Email invalide.");
@@ -86,6 +92,9 @@ public class User {
     }
 
     public static void setActiveUser(User user) {
+        if (user != null && !users.contains(user)) {
+            throw new IllegalArgumentException("L'utilisateur doit être dans la liste des utilisateurs.");
+        }
         activeUser = user;
     } 
 

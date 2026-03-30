@@ -26,14 +26,17 @@ public class Shareholder extends User {
 
     private final Map<Action, Double[]> portefeuille;
 
+    private static final ActionsList actionsList = new ActionsList();
+
     public Shareholder(String email, String password, String name, String firstname) {
         super(email, password, name, firstname);
         this.portefeuille = new HashMap<>();
     }
 
-    // Method to add an action to the shareholder's portfolio. If the action already exists in the portfolio, we update the quantity and the total price of the action. If the action does not exist in the portfolio, we add it with the given quantity and price. We also check that the price is not negative and that the quantity is positive.
+    // Method to add an action to the shareholder's portfolio. If the action already exists in the portfolio, 
+    // we update the quantity and the total price of the action. If the action does not exist in the portfolio, 
+    // we add it with the given quantity and price. We also check that the price is not negative and that the quantity is positive.
     public void addAction(Action action, double prixAchat, int quantite){
-
         if(prixAchat<0){
             throw new IllegalArgumentException("Le prix est négatif");
         }
@@ -44,6 +47,9 @@ public class Shareholder extends User {
 
         if(action==null){
             throw new IllegalArgumentException("L'action est null");
+        }
+        if (!actionsList.isActionDispo(action)) {
+            throw new IllegalArgumentException("L'action n'est pas disponible");
         }
         Double[] listAction = portefeuille.get(action);
 
@@ -61,7 +67,10 @@ public class Shareholder extends User {
         }
     } 
 
-    // Method to sell an action from the shareholder's portfolio. If the action does not exist, we throw an exception. If the quantity to sell is greater than the quantity owned, we throw an exception. Otherwise, we update the quantity of the action in the portfolio and if the quantity becomes 0, we remove the action from the portfolio
+    // Method to sell an action from the shareholder's portfolio. If the action does not exist, 
+    // we throw an exception. If the quantity to sell is greater than the quantity owned, we throw an exception. 
+    // Otherwise, we update the quantity of the action in the portfolio and if the quantity becomes 0, 
+    // we remove the action from the portfolio
     public void sellAction(Action action, int quantite){
         if(quantite<=0){
             throw new IllegalArgumentException("La quantité est négative ou égale à 0");
@@ -69,6 +78,10 @@ public class Shareholder extends User {
 
         if(action==null){
             throw new IllegalArgumentException("L'action est null");
+        }
+
+        if (!actionsList.getAllActions().contains(action)) {
+            throw new IllegalArgumentException("L'action n'existe pas");
         }
         Double[] listAction = portefeuille.get(action);
 

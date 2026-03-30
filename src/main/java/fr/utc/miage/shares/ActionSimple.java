@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 David Navarre &lt;David.Navarre at irit.fr&gt;.
+ * Copyright 2025 David Navarre <David.Navarre at irit.fr>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * Allows the creation of simple Action objects.
+ * A simple action has daily prices recorded for specific days.
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
  */
@@ -30,7 +31,11 @@ public class ActionSimple extends Action {
     // map of the value of the action for each day
     private final Map<Jour, Float> mapCours;
 
-    // constructor
+    /**
+     * Constructs a simple action with the given label.
+     *
+     * @param libelle the name of the simple action
+     */
     public ActionSimple(final String libelle) {
         // call the constructor of the superclass
         super(libelle);
@@ -38,8 +43,20 @@ public class ActionSimple extends Action {
         this.mapCours = new HashMap<>();
     }
 
-    // register the value of the action for a given day
+    /**
+     * Records the price of the action for a given day.
+     * Only records if no price has been recorded for that day yet.
+     *
+     * @param j the day to record the price for
+     * @param v the price value to record
+     */
     public void enrgCours(final Jour j, final float v) {
+        if (j == null) {
+            throw new IllegalArgumentException("Le jour ne peut pas être null");
+        }
+        if (v <= 0) {
+            throw new IllegalArgumentException("La valeur doit être strictement positive");
+        }
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);
         }
@@ -48,6 +65,13 @@ public class ActionSimple extends Action {
         }
     }
 
+    /**
+     * Calculates the value of the action for a given day.
+     * Returns the recorded price if it exists, otherwise returns 0.
+     *
+     * @param j the day to calculate value for
+     * @return the value of the action on that day, or 0 if not recorded
+     */
     @Override
     public float valeur(final Jour j) {
         if (this.mapCours.containsKey(j)) {

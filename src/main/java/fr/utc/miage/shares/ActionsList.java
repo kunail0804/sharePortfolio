@@ -39,7 +39,7 @@ public class ActionsList {
 
     // add an action to the list of available actions
     public void addActionDispo(final Action a) {
-        if (this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
+        if (a == null || this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action already exists in the list");
         }
         for (Action action : this.getAllActions()) {
@@ -52,6 +52,9 @@ public class ActionsList {
 
     // get the list of available actions for a given day
     public List<Action> getActionsDispo(final Jour j) {
+        if (j == null) {
+            throw new IllegalArgumentException("Le jour ne peut pas être null");
+        }
         final ArrayList<Action> actionsList = new ArrayList<>();
         for (final Action a : this.actionsDisponibles) {
             if (a.valeur(j) != 0) {
@@ -63,7 +66,7 @@ public class ActionsList {
 
     // add an action to the list of unavailable actions
     public void addActionIndispo(final Action a) {
-        if (this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
+        if (a == null || this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action already exists in the list");
         }
         for (Action action : this.getAllActions()) {
@@ -79,8 +82,19 @@ public class ActionsList {
         return new ArrayList<>(this.actionsIndisponibles);
     }
 
+    // verifie if an action is in the disponible list
+    public boolean isActionDispo(final Action a) {
+        if (a == null) {
+            throw new IllegalArgumentException("Action cannot be null");
+        }
+        return this.actionsDisponibles.contains(a);
+    }
+
     // deactivate an action and move it to the list of unavailable actions
     public void deactivateAction(final Action a) {
+        if (a == null) {
+            throw new IllegalArgumentException("Action cannot be null");
+        }
         if (!this.actionsDisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in available actions");
         }
@@ -90,6 +104,9 @@ public class ActionsList {
 
     // activate an action and move it to the list of available actions
     public void activateAction(final Action a) {
+        if (a == null) {
+            throw new IllegalArgumentException("Action cannot be null");
+        }
         if (!this.actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in unavailable actions");
         }
@@ -109,6 +126,12 @@ public class ActionsList {
     // not useful use deactivate instead
     @Deprecated
     public void removeAction(final Action a) {
+        if (a == null) {
+            throw new IllegalArgumentException("Action cannot be null");
+        }
+        if (!this.actionsDisponibles.contains(a)) {
+            throw new IllegalArgumentException("Action not found in available actions");
+        }
         this.actionsDisponibles.remove(a);
     }
 
