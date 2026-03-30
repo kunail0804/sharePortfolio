@@ -25,12 +25,6 @@ import java.util.Objects;
 public abstract class Action {
 
     private final String libelle;
-    
-    /**
-     * State of the action (e.g., buying state).
-     * Default value is false.
-     */
-    private boolean etatAction = false;
 
     /**
      * Get the value of libelle.
@@ -64,29 +58,6 @@ public abstract class Action {
     public abstract float valeur(Jour j);
 
     /**
-     * Checks the current active state of the action.
-     *
-     * @return true if the action is active, false otherwise
-     */
-    public boolean isActive() {
-        return etatAction;
-    }
-
-    /**
-     * Sets the active state of the action.
-     *
-     * @param etatAction the new state to apply to the action
-     */
-    public void setEtatAction(boolean etatAction) {
-        this.etatAction = etatAction;
-    }
-
-    /**
-     * Computes the hash code for this action.
-     * The hash code is generated based on the libelle property.
-     *
-     * @return a hash code value for this object
-     */
      * Checks if the action object is the same as another one.
      * @param a
      * @return
@@ -95,6 +66,11 @@ public abstract class Action {
         return this.getLibelle().equals(a.getLibelle());
     }
 
+    /**
+     * Returns a hash code value for the action object.
+     * 
+     * @return int
+     */
     @Override
     public int hashCode() {
         int hash = 3;
