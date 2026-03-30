@@ -27,18 +27,18 @@ public class ActionSimple extends Action {
 
     private static final int DEFAULT_ACTION_VALUE = 0;
 
-    // attribut lien
+    // map of the value of the action for each day
     private final Map<Jour, Float> mapCours;
 
-    // constructeur
+    // constructor
     public ActionSimple(final String libelle) {
-        // Action simple initialisée comme 1 action
+        // call the constructor of the superclass
         super(libelle);
-        // init spécifique
+        // initialize the map of the value of the action for each day
         this.mapCours = new HashMap<>();
     }
 
-    // enrg possible si pas de cours pour ce jour
+    // register the value of the action for a given day
     public void enrgCours(final Jour j, final float v) {
         if (!this.mapCours.containsKey(j)) {
             this.mapCours.put(j, v);

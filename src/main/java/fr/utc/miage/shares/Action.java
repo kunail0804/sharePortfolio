@@ -52,6 +52,15 @@ public abstract class Action {
      */
     public abstract float valeur(Jour j);
 
+    /**
+     * Checks if the action object is the same as another one.
+     * @param a
+     * @return
+     */
+    public boolean isSame(final Action a) {
+        return this.getLibelle().equals(a.getLibelle());
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

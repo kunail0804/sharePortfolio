@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
-class ActionsDisponibleTest {
+class ActionsListTest {
     private static final int DEFAULT_YEAR = 1;
     private static final int DEFAULT_DAY = 1;
     private final ActionSimple action1 = new ActionSimple("Test1");
@@ -28,40 +28,40 @@ class ActionsDisponibleTest {
 
     @Test
     void testConstructorShouldWork() {
-        assertDoesNotThrow(ActionsDisponible::new);
+        assertDoesNotThrow(ActionsList::new);
     }
 
     @Test
-    void testAddActionShouldWork() {
-        final ActionsDisponible actionsDisponible = new ActionsDisponible();
+    void testaddActionDispoShouldWork() {
+        final ActionsList actionsDisponible = new ActionsList();
         assertDoesNotThrow(() -> {
-            actionsDisponible.addAction(new ActionSimple("Test"));
+            actionsDisponible.addActionDispo(new ActionSimple("Test"));
         });
     }
 
     @Test
-    void testGetActionsShouldReturnOnlyAvailableActions() {
-        final ActionsDisponible actionsDisponible = new ActionsDisponible();
-        actionsDisponible.addAction(action1);
-        actionsDisponible.addAction(action2);
+    void testgetActionsDispoShouldReturnOnlyAvailableActions() {
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        actionsDisponible.addActionDispo(action2);
         action1.enrgCours(new Jour(DEFAULT_YEAR, DEFAULT_DAY), 10);
-        assertEquals(1, actionsDisponible.getActions(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
-        assertEquals(action1, actionsDisponible.getActions(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).get(0));
+        assertEquals(1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
+        assertEquals(action1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).get(0));
     }
 
     @Test
     void testGetAllActionsShouldWork() {
-        final ActionsDisponible actionsDisponible = new ActionsDisponible();
-        actionsDisponible.addAction(action1);
-        actionsDisponible.addAction(action2);
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        actionsDisponible.addActionDispo(action2);
         assertEquals(2, actionsDisponible.getAllActions().size());  
     }
 
     @Test
     void testRemoveActionShouldWork() {
-        final ActionsDisponible actionsDisponible = new ActionsDisponible();
-        actionsDisponible.addAction(action1);
-        actionsDisponible.addAction(action2);
+        final ActionsList actionsDisponible = new ActionsList();
+        actionsDisponible.addActionDispo(action1);
+        actionsDisponible.addActionDispo(action2);
         actionsDisponible.removeAction(action1);
         assertEquals(1, actionsDisponible.getAllActions().size());
         assertEquals(action2, actionsDisponible.getAllActions().get(0));
