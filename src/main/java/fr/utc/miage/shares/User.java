@@ -92,9 +92,6 @@ public class User {
     }
 
     public static void setActiveUser(User user) {
-        if (user != null && !users.contains(user)) {
-            throw new IllegalArgumentException("L'utilisateur doit être dans la liste des utilisateurs.");
-        }
         activeUser = user;
     } 
 

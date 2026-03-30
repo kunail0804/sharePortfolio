@@ -51,9 +51,6 @@ public class ActionSimple extends Action {
      * @param v the price value to record
      */
     public void enrgCours(final Jour j, final float v) {
-        if (j == null) {
-            throw new IllegalArgumentException("Le jour ne peut pas être null");
-        }
         if (v <= 0) {
             throw new IllegalArgumentException("La valeur doit être strictement positive");
         }
@@ -73,7 +70,7 @@ public class ActionSimple extends Action {
      * @return the value of the action on that day, or 0 if not recorded
      */
     @Override
-    public float valeur(final Jour j) {
+    public double valeur(final Jour j) {
         if (this.mapCours.containsKey(j)) {
             return this.mapCours.get(j);
         } else {

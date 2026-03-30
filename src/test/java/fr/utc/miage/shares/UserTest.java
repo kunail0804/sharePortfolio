@@ -40,7 +40,7 @@ public class UserTest {
     }
 
     @Test
-    public void testConstructorWithInvalidEmailShouldThrowException(){
+    void testConstructorWithInvalidEmailShouldThrowException(){
         
         assertThrows(IllegalArgumentException.class, () -> {
             User user = new User("invalid-email", "password", "Doe", "John");
@@ -58,7 +58,7 @@ public class UserTest {
     }
 
     @Test
-    public void testConstructorWithDuplicateEmailShouldThrowException(){
+    void testConstructorWithDuplicateEmailShouldThrowException(){
         User user1 = new User("test@example.com", "password", "Doe", "John");
         assertThrows(IllegalArgumentException.class, () -> {
             User user2 = new User("test@example.com", "password", "Smith", "Jane");
@@ -164,6 +164,4 @@ public class UserTest {
         assertEquals("User{email=test@example.com, name=Doe, firstname=John}", user.toString());
         User.resetUsers();
     }
-
-
 }

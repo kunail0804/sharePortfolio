@@ -138,8 +138,23 @@ class ActionTest {
          * @return always 0
          */
         @Override
-        public float valeur(final Jour aJour) {
+        public double valeur(final Jour aJour) {
             return 0.0F;
         }
+    }
+
+    @Test
+    void testEnrgCoursWithNegativeValue() {
+        final ActionSimple action = new ActionSimple(FOO_SHARE1);
+        final Jour jour = new Jour(2024, 1);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, -10),
+                "enrgCours should throw IllegalArgumentException when value is negative");
+    }
+
+    @Test
+    void testConstructorWithNullLibelle() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new ActionImpl(null),
+                "Constructor should throw IllegalArgumentException when libelle is null");
     }
 }

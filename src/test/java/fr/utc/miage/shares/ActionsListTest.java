@@ -27,124 +27,160 @@ class ActionsListTest {
     private final ActionSimple action2 = new ActionSimple("Test2");
 
     @Test
-    void testConstructorShouldWork() {
-        assertDoesNotThrow(ActionsList::new);
-    }
-
-    @Test
     void testaddActionDispoShouldWork() {
-        final ActionsList actionsDisponible = new ActionsList();
+        ActionsList.resetAll();
         assertDoesNotThrow(() -> {
-            actionsDisponible.addActionDispo(new ActionSimple("Test"));
+            ActionsList.addActionDispo(new ActionSimple("Test"));
         });
     }
 
     @Test
     void testaddActionDispoAddTwoTimesSameActionShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(action1));
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(action1));
     }
 
     @Test
     void testAddActionDispoAddTwoActionsWithSameNameShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
+        ActionsList.resetAll();
         final ActionSimple actionDuplicate = new ActionSimple("Test1");
-        actionsDisponible.addActionDispo(action1);
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(actionDuplicate));
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(actionDuplicate));
     }
 
     @Test
     void testgetActionsDispoShouldReturnOnlyAvailableActions() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        actionsDisponible.addActionDispo(action2);
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        ActionsList.addActionDispo(action2);
         action1.enrgCours(new Jour(DEFAULT_YEAR, DEFAULT_DAY), 10);
-        assertEquals(1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
-        assertEquals(action1, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).get(0));
+        assertEquals(1, ActionsList.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
+        assertEquals(action1, ActionsList.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).get(0));
     }
 
     @Test
     void testaddActionInDispoAddTwoTimesSameActionShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(action1));
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(action1));
     }
 
     @Test
     void testAddActionInDispoAddTwoActionsWithSameNameShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
+        ActionsList.resetAll();
         final ActionSimple actionDuplicate = new ActionSimple("Test1");
-        actionsDisponible.addActionDispo(action1);
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.addActionDispo(actionDuplicate));
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(actionDuplicate));
     }
 
     @Test
     void testgetActionsIndispoShouldReturnOnlyUnavailableActions() {
-        final ActionsList actionsIndisponible = new ActionsList();
-        actionsIndisponible.addActionIndispo(action1);
-        actionsIndisponible.addActionIndispo(action2);
+        ActionsList.resetAll();
+        ActionsList.addActionIndispo(action1);
+        ActionsList.addActionIndispo(action2);
         action1.enrgCours(new Jour(DEFAULT_YEAR, DEFAULT_DAY), 10);
-        assertEquals(2, actionsIndisponible.getActionsIndispo().size());
-        assertEquals(action1, actionsIndisponible.getActionsIndispo().get(0));
+        assertEquals(2, ActionsList.getActionsIndispo().size());
+        assertEquals(action1, ActionsList.getActionsIndispo().get(0));
     }
 
     @Test
     void testDeactivateActionShouldMoveActionToIndisponibleList() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        actionsDisponible.deactivateAction(action1);
-        assertEquals(0, actionsDisponible.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
-        assertEquals(1, actionsDisponible.getActionsIndispo().size());
-        assertEquals(action1, actionsDisponible.getActionsIndispo().get(0));
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        ActionsList.deactivateAction(action1);
+        assertEquals(0, ActionsList.getActionsDispo(new Jour(DEFAULT_YEAR, DEFAULT_DAY)).size());
+        assertEquals(1, ActionsList.getActionsIndispo().size());
+        assertEquals(action1, ActionsList.getActionsIndispo().get(0));
     }
 
     @Test
     void testDeactivateActionNotInDispoShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.deactivateAction(action1)  );
+        ActionsList.resetAll();
+
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.deactivateAction(action1)  );
     }
 
     @Test
     void testActivateActionShouldMoveActionToDispoList() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionIndispo(action1);
-        actionsDisponible.activateAction(action1);
+        ActionsList.resetAll();
+        ActionsList.addActionIndispo(action1);
+        ActionsList.activateAction(action1);
         Jour jour = new Jour(DEFAULT_YEAR, DEFAULT_DAY);
         action1.enrgCours(jour, 10);
-        assertEquals(1, actionsDisponible.getActionsDispo(jour).size());
-        assertEquals(0, actionsDisponible.getActionsIndispo().size());
-        assertEquals(action1, actionsDisponible.getActionsDispo(jour).get(0));
+        assertEquals(1, ActionsList.getActionsDispo(jour).size());
+        assertEquals(0, ActionsList.getActionsIndispo().size());
+        assertEquals(action1, ActionsList.getActionsDispo(jour).get(0));
     }
     @Test
     void testActivateActionNotInIndispoShouldThrowException() {
-        final ActionsList actionsDisponible = new ActionsList();
-        assertThrows(IllegalArgumentException.class, () -> actionsDisponible.activateAction(action1)  );
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.activateAction(action1)  );
     }
 
     @Test
     void testGetAllActionsShouldWork() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        actionsDisponible.addActionDispo(action2);
-        assertEquals(2, actionsDisponible.getAllActions().size());  
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        ActionsList.addActionDispo(action2);
+        assertEquals(2, ActionsList.getAllActions().size());
     }
 
     @Test
     void testRemoveActionShouldWork() {
-        final ActionsList actionsDisponible = new ActionsList();
-        actionsDisponible.addActionDispo(action1);
-        actionsDisponible.addActionDispo(action2);
-        actionsDisponible.removeAction(action1);
-        assertEquals(1, actionsDisponible.getAllActions().size());
-        assertEquals(action2, actionsDisponible.getAllActions().get(0));
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        ActionsList.addActionDispo(action2);
+        ActionsList.removeAction(action1);
+        assertEquals(1, ActionsList.getAllActions().size());
+        assertEquals(action2, ActionsList.getAllActions().get(0));
     }
 
     @Test
     void testEnrgCoursWithTwoTimesSameDateShouldThrowException() {
+        ActionsList.resetAll();
         final ActionSimple action = new ActionSimple("Test");
         final Jour jour = new Jour(DEFAULT_YEAR, DEFAULT_DAY);
         action.enrgCours(jour, 10);
         assertThrows(IllegalArgumentException.class, () -> action.enrgCours(jour, 20));
+    }
+
+    @Test
+    void testRemoveActionNotExistingShouldThrowException() {
+        ActionsList.resetAll();
+        final ActionSimple action = new ActionSimple("Test");
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.removeAction(action));
+    }
+
+    @Test
+    void testRemoveActionNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.removeAction(null));
+    }
+
+    @Test
+    void testAddActionDispoNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(null));
+    }
+
+    @Test
+    void testAddActionIndispoNullShouldThrowException() {
+        ActionsList.resetAll();
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionIndispo(null));
+    }
+
+    @Test
+    void testAddActionDispoAlreadyInDispoShouldThrowException() {
+        ActionsList.resetAll();
+        ActionsList.addActionDispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionDispo(action1));
+    }
+
+    @Test
+    void testAddActionIndispoAlreadyInIndispoShouldThrowException() {
+        ActionsList.resetAll();
+        ActionsList.addActionIndispo(action1);
+        assertThrows(IllegalArgumentException.class, () -> ActionsList.addActionIndispo(action1));
     }
 }

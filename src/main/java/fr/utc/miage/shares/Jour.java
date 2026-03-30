@@ -15,6 +15,8 @@
  */
 package fr.utc.miage.shares;
 
+import java.time.LocalDate;
+
 /**
  * This class aims at describing a day based on a year and the day in this year.
  *
@@ -30,6 +32,16 @@ public class Jour {
      * Day attribute.
      */
     private final int day;
+
+    /**
+     * Builds a Jour object for today.
+     */
+    public Jour() {
+        LocalDate today = LocalDate.now();
+        this.year = today.getYear();
+        this.day = today.getDayOfYear();
+    }
+
 
     /**
      * Builds a Jour object from one year and one day.

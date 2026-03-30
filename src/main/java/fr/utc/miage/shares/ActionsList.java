@@ -26,37 +26,28 @@ import java.util.List;
 public class ActionsList {
 
     // list of available actions
-    private final ArrayList<Action> actionsDisponibles;
+    private static final ArrayList<Action> actionsDisponibles = new ArrayList<>();
 
     // list of unavailable actions
-    private final ArrayList<Action> actionsIndisponibles;
-
-    // constructor
-    public ActionsList() {
-        this.actionsDisponibles = new ArrayList<>();
-        this.actionsIndisponibles = new ArrayList<>();
-    }
+    private static final ArrayList<Action> actionsIndisponibles = new ArrayList<>();
 
     // add an action to the list of available actions
-    public void addActionDispo(final Action a) {
-        if (a == null || this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
+    public static void addActionDispo(final Action a) {
+        if (a == null || actionsDisponibles.contains(a) || actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action already exists in the list");
         }
-        for (Action action : this.getAllActions()) {
+        for (Action action : getAllActions()) {
             if (action.isSame(a)) {
                 throw new IllegalArgumentException("Action with the same name already exists in the list");
             }
         }
-        this.actionsDisponibles.add(a);
+        actionsDisponibles.add(a);
     }
 
     // get the list of available actions for a given day
-    public List<Action> getActionsDispo(final Jour j) {
-        if (j == null) {
-            throw new IllegalArgumentException("Le jour ne peut pas être null");
-        }
+    public static List<Action> getActionsDispo(final Jour j) {
         final ArrayList<Action> actionsList = new ArrayList<>();
-        for (final Action a : this.actionsDisponibles) {
+        for (final Action a : actionsDisponibles) {
             if (a.valeur(j) != 0) {
                 actionsList.add(a);
             }
@@ -65,74 +56,70 @@ public class ActionsList {
     }
 
     // add an action to the list of unavailable actions
-    public void addActionIndispo(final Action a) {
-        if (a == null || this.actionsDisponibles.contains(a) || this.actionsIndisponibles.contains(a)) {
+    public static void addActionIndispo(final Action a) {
+        if (a == null || actionsDisponibles.contains(a) || actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action already exists in the list");
         }
-        for (Action action : this.getAllActions()) {
+        for (Action action : getAllActions()) {
             if (action.isSame(a)) {
                 throw new IllegalArgumentException("Action with the same name already exists in the list");
             }
         }
-        this.actionsIndisponibles.add(a);
+        actionsIndisponibles.add(a);
     }
 
     // get the list of unavailable actions
-    public List<Action> getActionsIndispo() {
-        return new ArrayList<>(this.actionsIndisponibles);
+    public static List<Action> getActionsIndispo() {
+        return new ArrayList<>(actionsIndisponibles);
     }
 
     // verifie if an action is in the disponible list
-    public boolean isActionDispo(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
-        return this.actionsDisponibles.contains(a);
+    public static boolean isActionDispo(final Action a) {
+        return actionsDisponibles.contains(a);
     }
 
     // deactivate an action and move it to the list of unavailable actions
-    public void deactivateAction(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
-        if (!this.actionsDisponibles.contains(a)) {
+    public static void deactivateAction(final Action a) {
+        if (!actionsDisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in available actions");
         }
-        this.actionsDisponibles.remove(a);
-        this.actionsIndisponibles.add(a);
+        actionsDisponibles.remove(a);
+        actionsIndisponibles.add(a);
     }
 
     // activate an action and move it to the list of available actions
-    public void activateAction(final Action a) {
-        if (a == null) {
-            throw new IllegalArgumentException("Action cannot be null");
-        }
-        if (!this.actionsIndisponibles.contains(a)) {
+    public static void activateAction(final Action a) {
+        if (!actionsIndisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in unavailable actions");
         }
-        this.actionsIndisponibles.remove(a);
-        this.actionsDisponibles.add(a);
+        actionsIndisponibles.remove(a);
+        actionsDisponibles.add(a);
     }
 
     // get the list of all actions (available and unavailable)
-    public List<Action> getAllActions() {
+    public static List<Action> getAllActions() {
         final ArrayList<Action> allActions = new ArrayList<>();
-        allActions.addAll(this.actionsDisponibles);
-        allActions.addAll(this.actionsIndisponibles);
+        allActions.addAll(actionsDisponibles);
+        allActions.addAll(actionsIndisponibles);
         return allActions;
     }
 
     // remove an action from the list of available actions
     // not useful use deactivate instead
     @Deprecated
-    public void removeAction(final Action a) {
+    public static void removeAction(final Action a) {
         if (a == null) {
             throw new IllegalArgumentException("Action cannot be null");
         }
-        if (!this.actionsDisponibles.contains(a)) {
+        if (!actionsDisponibles.contains(a)) {
             throw new IllegalArgumentException("Action not found in available actions");
         }
-        this.actionsDisponibles.remove(a);
+        actionsDisponibles.remove(a);
+    }
+
+    public static void resetAll(){
+        actionsDisponibles.clear();
+        actionsIndisponibles.clear();
     }
 
 

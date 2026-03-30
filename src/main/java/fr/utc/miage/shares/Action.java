@@ -55,7 +55,7 @@ public abstract class Action {
      * @param j the day for which to calculate the value
      * @return the calculated value of the action for the specified day
      */
-    public abstract float valeur(Jour j);
+    public abstract double valeur(Jour j);
 
     /**
      * Checks if the action object is the same as another one.
