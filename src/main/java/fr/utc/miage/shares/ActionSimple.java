@@ -73,7 +73,7 @@ public class ActionSimple extends Action {
      * @return the value of the action on that day, or 0 if not recorded
      */
     @Override
-    public float valeur(final Jour j) {
+    public double valeur(final Jour j) {
         if (this.mapCours.containsKey(j)) {
             return this.mapCours.get(j);
         } else {
