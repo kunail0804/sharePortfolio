@@ -59,7 +59,31 @@ public class UserTest {
     }
 
     @Test
-    public void testSetPasswordWithValidPasswordShouldWork(){
+    void testGetNameShouldReturnCorrectName(){
+        User user = new User("test@example.com", "password", "Doe", "John");
+        assertEquals("Doe", user.getName());
+    }
+
+    @Test
+    void testGetFirstnameShouldReturnCorrectFirstname(){
+        User user = new User("test@example.com", "password", "Doe", "John");
+        assertEquals("John", user.getFirstname());
+    }
+
+    @Test
+    void testGetEmailShouldReturnCorrectEmail(){
+        User user = new User("test@example.com", "password", "Doe", "John");
+        assertEquals("test@example.com", user.getEmail());
+    }
+
+    @Test
+    void testGetPasswordShouldReturnCorrectPassword(){
+        User user = new User("test@example.com", "password", "Doe", "John");
+        assertEquals("password", user.getPassword());
+    }
+
+    @Test
+    void testSetPasswordWithValidPasswordShouldWork(){
         User user = new User("test@example.com", "password", "Doe", "John");
         user.setPassword("newPassword");
         assertEquals("newPassword", user.getPassword());
@@ -67,7 +91,7 @@ public class UserTest {
     }
 
     @Test
-    public void testSetPasswordWithEmptyPasswordShouldThrowException(){
+    void testSetPasswordWithEmptyPasswordShouldThrowException(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertThrows(IllegalArgumentException.class, () -> {
             user.setPassword("");
@@ -76,7 +100,7 @@ public class UserTest {
     }
 
     @Test
-    public void testSetPasswordWithNullPasswordShouldThrowException(){
+    void testSetPasswordWithNullPasswordShouldThrowException(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertThrows(IllegalArgumentException.class, () -> {
             user.setPassword(null);
@@ -85,7 +109,7 @@ public class UserTest {
     }
 
     @Test
-    public void testLoginWithCorrectCredentialsShouldWork(){
+    void testLoginWithCorrectCredentialsShouldWork(){
         User user = new User("test@example.com", "password", "Doe", "John");
         User user2 = new User("user2@example.com", "password2", "Smith", "Jane");
         assertEquals(user2, User.getActiveUser());
@@ -96,7 +120,7 @@ public class UserTest {
     }
 
     @Test
-    public void testLoginWithIncorrectPasswordShouldThrowException(){
+    void testLoginWithIncorrectPasswordShouldThrowException(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertThrows(IllegalArgumentException.class, () -> {
             User.login("test@example.com", "wrongpassword");
@@ -105,7 +129,7 @@ public class UserTest {
     }
 
     @Test
-    public void testLoginWithNonExistentEmailShouldThrowException(){
+    void testLoginWithNonExistentEmailShouldThrowException(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertThrows(IllegalArgumentException.class, () -> {
             User.login("nonexistent@example.com", "password");
@@ -114,7 +138,7 @@ public class UserTest {
     }
 
     @Test
-    public void testLogoutShouldSetActiveUserToNull(){
+    void testLogoutShouldSetActiveUserToNull(){
         User user = new User("test@example.com", "password", "Doe", "John");
         User.login("test@example.com", "password");
         User.logout();
@@ -123,7 +147,7 @@ public class UserTest {
     }
 
     @Test
-    public void testToStringShouldReturnCorrectString(){
+    void testToStringShouldReturnCorrectString(){
         User user = new User("test@example.com", "password", "Doe", "John");
         assertEquals("User{email=test@example.com, name=Doe, firstname=John}", user.toString());
         User.resetUsers();
