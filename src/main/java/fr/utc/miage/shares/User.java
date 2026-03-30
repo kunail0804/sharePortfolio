@@ -18,6 +18,11 @@ package fr.utc.miage.shares;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a user of the application. It contains the user's email, password, name and firstname. It also contains a static list of all users and a static variable for the active user.
+ * The constructor checks that the email is valid and unique, and adds the user to the list of users. The class also contains methods for logging in, logging out, and resetting the list of users.
+ * @author Guilherme Sampaio &lt;
+ */
 public class User {
     // On stocke tous les utilisateurs dans une liste statique pour pouvoir vérifier l'unicité des emails et gérer les connexions
     private static final List<User> users = new ArrayList<>();
@@ -42,13 +47,13 @@ public class User {
             this.name = name;
             this.firstname = firstname;
             users.add(this);
-            activeUser = this;
+            setActiveUser(this);
         } else{
             // Si l'email n'est pas unique, on lance une exception pour indiquer que l'utilisateur ne peut pas être créé
             throw new IllegalArgumentException("Cet email est déjà utilisé.");
         }
     }
-    
+
     public static List<User> getUsers() {
         return users;
     }
@@ -80,6 +85,11 @@ public class User {
         return activeUser;
     }
 
+    public static void setActiveUser(User user) {
+        activeUser = user;
+    } 
+
+    // Méthode pour vérifier que l'email est unique dans la liste des utilisateurs
     public static boolean isUnique(final String email){
         for(int i = 0; i < users.size(); i++){
             if (users.get(i).getEmail().equals(email)){
@@ -89,11 +99,12 @@ public class User {
         return true;
     }
 
+    // Méthode pour se connecter à l'application en vérifiant que l'email et le mot de passe sont corrects
     public static User login(final String email, final String password){
         for(int i = 0; i < users.size(); i++){
             if (users.get(i).getEmail().equals(email)){
                 if (users.get(i).getPassword().equals(password)){
-                    activeUser = users.get(i);
+                    setActiveUser(users.get(i));
                     return users.get(i);
                 } else{
                     throw new IllegalArgumentException("Mot de passe incorrect.");
@@ -103,13 +114,15 @@ public class User {
         throw new IllegalArgumentException("Email non trouvé.");
     }
 
+    // Méthode pour se déconnecter de l'application en mettant l'utilisateur actif à null
     public static void logout(){
-        activeUser = null;
+        setActiveUser(null);
     }
 
+    // Méthode pour réinitialiser la liste des utilisateurs en la vidant et en mettant l'utilisateur actif à null
     public static void resetUsers() {
         users.clear();
-        activeUser = null;
+        setActiveUser(null);
     }
 
 
