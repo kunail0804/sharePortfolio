@@ -94,7 +94,7 @@ class ShareholderTest {
         ActionSimple action = new ActionSimple("AAPL");
         ActionsList.addActionDispo(action);
 
-        Double[] listAction = null;
+        Integer listAction = null;
 
         assertEquals(listAction, sh.getPortefeuille().get(action));
     }

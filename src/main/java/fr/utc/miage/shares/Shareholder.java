@@ -49,10 +49,7 @@ public class Shareholder extends User {
         if(quantite<=0){
             throw new IllegalArgumentException("La quantité est négative ou égale à 0");
         }
-
-        if(action==null){
-            throw new IllegalArgumentException("L'action est null");
-        }
+        
         if (!actionsList.isActionDispo(action)) {
             throw new IllegalArgumentException("L'action n'est pas disponible");
         }
@@ -79,10 +76,6 @@ public class Shareholder extends User {
 
         if(quantite<=0){
             throw new IllegalArgumentException("La quantité est négative ou égale à 0");
-        }
-
-        if(action==null){
-            throw new IllegalArgumentException("L'action est null");
         }
 
         if (!actionsList.getAllActions().contains(action)) {
