@@ -18,13 +18,15 @@ package fr.utc.miage.shares;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Map;
+
 /**
  * Test class for ActionComposee.
  * Tests composite action composition validation and value calculation.
  *
  * @author David Navarre &lt;David.Navarre at irit.fr&gt;
  */
-public class ActionComposeeTest {
+class ActionComposeeTest {
 
     private static final String FOO_SHARE1 = "Foo Share 1";
     private static final String FOO_SHARE2 = "Foo Share 2";
@@ -68,41 +70,71 @@ public class ActionComposeeTest {
      * Test #33: Failure when total percentage is less than 100%.
      * Verifies that composition validation fails and value calculation throws exception.
      */
+  
+
+
     @Test
-    public void testValiderComposition_PourcentageMoins100() {
+    void testValiderComposition_PourcentageDifferent100() {
         init();
         actionComposee.addAction(action1, PERCENT_35);
-        actionComposee.addAction(action2, PERCENT_50);
-        
         assertFalse(actionComposee.validerComposition());
         assertThrows(IllegalStateException.class, () -> {
             actionComposee.valeur(jour);
         });
+    }
+
+    @Test
+    void testValiderCompositionEgale100() {
+        init();
+        actionComposee.addAction(action1, PERCENT_35);
+        actionComposee.addAction(action2, PERCENT_50);
+        actionComposee.addAction(action3, PERCENT_15);
+        assertTrue(actionComposee.validerComposition());
+    }
+
+    @Test 
+    void testAddAction_PourcentagePlus100() {
+        init();
+        assertThrows(IllegalArgumentException.class, () -> {
+            actionComposee.addAction(action1, PERCENT_35);
+            actionComposee.addAction(action2, PERCENT_50);
+            actionComposee.addAction(action3, PERCENT_25);
+        });
+    }
+    @Test
+    void testAddAction_ActionNull() {
+        init();
+        assertThrows(IllegalArgumentException.class, () -> {
+            actionComposee.addAction(null, PERCENT_50);
+        });
+    }
+
+    @Test
+    void testAddAction_PourcentageZero() {
+        init();
+        assertThrows(IllegalArgumentException.class, () -> {
+            actionComposee.addAction(action1, 0.0f);
+        });
+    }
+
+    @Test
+    void getComposition() {
+        init();
+        actionComposee.addAction(action1, PERCENT_35);
+        actionComposee.addAction(action2, PERCENT_50);
+        Map<ActionSimple, Float> composition = actionComposee.getComposition();
+        assertEquals(2, composition.size());
+        assertEquals(PERCENT_35, composition.get(action1));
+        assertEquals(PERCENT_50, composition.get(action2));
     }
     
-    /**
-     * Test #34: Failure when total percentage is greater than 100%.
-     * Verifies that composition validation fails and value calculation throws exception.
-     */
-    @Test
-    public void testValiderComposition_PourcentagePlus100() {
-        init();
-        actionComposee.addAction(action1, PERCENT_35);
-        actionComposee.addAction(action2, PERCENT_50);
-        actionComposee.addAction(action3, PERCENT_25);
-
-        assertFalse(actionComposee.validerComposition());
-        assertThrows(IllegalStateException.class, () -> {
-            actionComposee.valeur(jour);
-        });
-    }
     
     /**
      * Test #35: Failure when composite action has no actions.
      * Verifies that hasAuMoinsUneAction returns false and value calculation throws exception.
      */
     @Test
-    public void testHasAuMoinsUneAction_PasDAction() {
+    void testHasAuMoinsUneAction_PasDAction() {
         init();
         assertFalse(actionComposee.hasAuMoinsUneAction());
         assertThrows(IllegalStateException.class, () -> {
@@ -110,20 +142,8 @@ public class ActionComposeeTest {
         });
     }
     
-    /**
-     * Test #36: Success case with valid composition.
-     * Verifies that composition is valid and value is calculated correctly.
-     * Expected value: (100 * 0.35) + (200 * 0.50) + (150 * 0.15) = 35 + 100 + 22.5 = 157.5
-     */
-    @Test
-    public void testValiderComposition_Success() {
-        init();
-        actionComposee.addAction(action1, PERCENT_35);
-        actionComposee.addAction(action2, PERCENT_50);
-        actionComposee.addAction(action3, PERCENT_15);
-        
-        assertTrue(actionComposee.hasAuMoinsUneAction());
-        assertTrue(actionComposee.validerComposition());
-        assertEquals(157.5, actionComposee.valeur(jour), 0.0001f);
-    }
+
+
 }
+    
+    

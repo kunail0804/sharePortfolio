@@ -45,7 +45,15 @@ public class UserTest {
         assertThrows(IllegalArgumentException.class, () -> {
             User user = new User("invalid-email", "password", "Doe", "John");
         });
-    
+        User.resetUsers();
+    }
+
+     @Test
+    public void testConstructorWithNullParametersShouldThrowException(){
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            User user = new User(null, "password", "Doe", "John");
+        });
         User.resetUsers();
     }
 
@@ -156,4 +164,6 @@ public class UserTest {
         assertEquals("User{email=test@example.com, name=Doe, firstname=John}", user.toString());
         User.resetUsers();
     }
+
+
 }
