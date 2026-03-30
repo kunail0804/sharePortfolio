@@ -58,6 +58,9 @@ public class Shareholder extends User {
             if(listAction[1]>=quantite){
                 listAction[1]-=quantite;
                 portefeuille.put(action, listAction);
+                if(listAction[1] == 0){
+                    portefeuille.remove(action);
+                }
             }else{
                 throw new IllegalArgumentException("La quantite à vendre est supèrieur à la quantité posseder");
             }
