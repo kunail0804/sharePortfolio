@@ -48,7 +48,7 @@ public class User {
             throw new IllegalArgumentException("Cet email est déjà utilisé.");
         }
     }
-
+    
     public static List<User> getUsers() {
         return users;
     }
